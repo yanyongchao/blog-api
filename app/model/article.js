@@ -9,7 +9,8 @@ module.exports = app => {
     classification: { type: String, required: true },
     category: { type: Array, required: true },
     user: { type: ObjectId, ref: 'User' }, // 用户作者
-    createAt: { type: Date, default: Date.now }
+    createAt: { type: Date, default: Date.now },
+    pv: { type: Number, default: 0 }
   })
 
   const Article = mongoose.model('Article', ArticleSchema)

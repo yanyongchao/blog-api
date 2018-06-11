@@ -26,9 +26,9 @@ class ArticleController extends Controller {
     if (category) {
       query.category = category
     }
-    console.log(query)
     try {
-      let articles = await ctx.model.Article.find(query)
+      let articles = await ctx.model.Article.find(query, { __v: 0 })
+        .sort({ createAt: -1 })
         .skip((pageNum - 1) * pageSize)
         .limit(pageSize)
         .exec()
@@ -81,9 +81,9 @@ class ArticleController extends Controller {
   async show() {
     const { ctx, service } = this
     const id = ctx.params.id
-    console.log(id)
     try {
-      const article = await ctx.model.Article.findById(id)
+      const article = await ctx.model.Article.findByIdAndUpdate(id, { $inc: {pv: 1} })
+      console.log(article)
       service.response.send(1000, '成功', { article })
     } catch (error) {
       service.response.send(1002, '失败', error)

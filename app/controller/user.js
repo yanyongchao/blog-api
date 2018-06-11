@@ -67,6 +67,21 @@ class UserController extends Controller {
     let { ctx, service } = this
     service.response.send(1000, 'token正常')
   }
+
+  // 总pv
+  async getPvs() {
+    let { ctx, service } = this
+    try {
+      let articles = await ctx.model.Article.find({})
+      let pvs = 0
+      articles.forEach(item => {
+        pvs += item.pv
+      })
+      service.response.send(1000, '成功', { pvs })
+    } catch (error) {
+      service.response.send(1002, '失败', error)
+    }
+  }
 }
 
 module.exports = UserController
